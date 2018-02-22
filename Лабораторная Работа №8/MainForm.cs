@@ -440,5 +440,19 @@ namespace Лабораторная_Работа__8
             AboutForm aboutForm = new AboutForm();
             aboutForm.ShowDialog();
         }
+
+        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.FileName = fileName;
+
+            openFileDialog.CheckFileExists = false;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                fileName = openFileDialog.FileName;
+                LoadFromFile();
+            }
+        }
     }
 }

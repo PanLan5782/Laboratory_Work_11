@@ -49,15 +49,15 @@ namespace Лабораторная_Работа__8
             int dayNumber = 0;
             double temperature = 0;
 
-            if (!int.TryParse(txtDayNumber.Text, out dayNumber))
+            if (!int.TryParse(txtDayNumber.Text, out dayNumber) || dayNumber<1 || dayNumber >31)
             {
-                MessageBox.Show("Номер дня должен быть целым числом. Повторите ввод.", "Некорректный ввод", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Номер дня должен быть целым числом в диапазоне от 1 до 31. Повторите ввод.", "Некорректный ввод", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (!double.TryParse(txtTemperature.Text, out temperature))
+            if (!double.TryParse(txtTemperature.Text, out temperature) || temperature<-100 || temperature >100)
             {
-                MessageBox.Show("Температура должена быть вещественным числом. Повторите ввод.", "Некорректный ввод", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Температура должена быть вещественным числом в диапазоне от -100 до 100. Повторите ввод.", "Некорректный ввод", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
