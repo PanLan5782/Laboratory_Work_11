@@ -13,7 +13,10 @@ namespace Лабораторная_Работа__8
             InitializeComponent();
             LoadFromFile();
         }
-
+        /// <summary>
+        /// Добавление в конец
+        /// </summary>
+        /// <param name="averageTemp"></param>
         private void AddToEndOfFile(AverageTemp averageTemp)
         {
             FileStream f1 = new FileStream(fileName, FileMode.OpenOrCreate);
@@ -87,19 +90,25 @@ namespace Лабораторная_Работа__8
 
         private void LoadFromFile()
         {
-            listBox1.Items.Clear();
-
-            FileStream f2 = new FileStream(fileName, FileMode.OpenOrCreate);
-            BinaryFormatter bf = new BinaryFormatter();
-
-
-            while (f2.Position < f2.Length)
+            try
             {
-                AverageTemp d = (AverageTemp)bf.Deserialize(f2); // восстановление объекта
-                if (!d.Deleted)
-                    listBox1.Items.Add(d);
+                listBox1.Items.Clear();
+
+                FileStream f2 = new FileStream(fileName, FileMode.OpenOrCreate);
+                BinaryFormatter bf = new BinaryFormatter();
+
+                while (f2.Position < f2.Length)
+                {
+                    AverageTemp d = (AverageTemp)bf.Deserialize(f2); // восстановление объекта
+                    if (!d.Deleted)
+                        listBox1.Items.Add(d);
+                }
+                f2.Close();
             }
-            f2.Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка при открытии файла", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void DeleteFromFileByIndex(int indexForDelete)
@@ -426,6 +435,8 @@ namespace Лабораторная_Работа__8
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.DefaultExt = "bin";
+            openFileDialog.Filter = "*.bin|*.bin";
             openFileDialog.FileName = fileName;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -445,7 +456,7 @@ namespace Лабораторная_Работа__8
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.FileName = fileName;
-
+            openFileDialog.Filter = "*.bin|*.bin";
             openFileDialog.CheckFileExists = false;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -453,6 +464,13 @@ namespace Лабораторная_Работа__8
                 fileName = openFileDialog.FileName;
                 LoadFromFile();
             }
+        }
+
+        private void правкаToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            bool isNotListEmpty = listBox1.Items.Count != 0;
+            изменитьToolStripMenuItem.Enabled = isNotListEmpty;
+            удалитьToolStripMenuItem.Enabled = isNotListEmpty;
         }
     }
 }
